@@ -4,11 +4,9 @@
 package Controller;
 
 import View.Swing;
+import View.View_Main;
 
 
-
-
-// TODO: Auto-generated Javadoc
 /**
  * The Class Main.
  */
@@ -24,7 +22,7 @@ public class Main {
       //  Controller_Main c_main = new Controller_Main();
       //  c_main.menu();
 
-        new Swing();
+        new View_Main();
 
 
     }

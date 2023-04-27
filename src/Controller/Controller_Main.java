@@ -5,7 +5,6 @@ package Controller;
 
 import java.util.Scanner;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class Controller_Main.
  */

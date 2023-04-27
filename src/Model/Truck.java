@@ -3,7 +3,6 @@
  */
 package Model;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class Truck.
  */

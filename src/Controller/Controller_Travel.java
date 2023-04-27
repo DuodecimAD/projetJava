@@ -8,7 +8,6 @@ import Model.Travel;
 import java.util.Objects;
 import java.util.Scanner;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class Controller_Travel.
  */
