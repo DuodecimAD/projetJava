@@ -26,7 +26,7 @@ public class View_Main extends JFrame{
         setContentPane(mainPanel);
         setTitle("Projet Java Antony");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setPreferredSize(new Dimension(860, 450));
+        setPreferredSize(new Dimension(1280, 720));
 
         //setSize(810, 450);
         pack();
@@ -65,15 +65,15 @@ public class View_Main extends JFrame{
     public void show_View_Main() {
         setContentPane(mainPanel);
         // pack, center, and show your new view here
-        pack();
+        //pack();
     }
 
     public void show_View_Driver() {
-        v_driver = new View_Driver(View_Main.this, View_Main.this);
+        v_driver = new View_Driver(View_Main.this);
         v_driver.add(v_driver.getDriverPanel());
         setContentPane(v_driver);
         // pack, center, and show your new view here
-        pack();
+        //pack();
         //setVisible(true);
     }
 
