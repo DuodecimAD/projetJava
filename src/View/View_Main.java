@@ -1,11 +1,14 @@
 package View;
 
+import Controller.Controller_Driver;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class View_Main extends JFrame{
+    Controller_Driver c_driver = new Controller_Driver();
     private View_Driver v_driver;
     private View_Truck v_truck;
     private View_Travel v_travel;
@@ -69,7 +72,7 @@ public class View_Main extends JFrame{
     }
 
     public void show_View_Driver() {
-        v_driver = new View_Driver(View_Main.this);
+        v_driver = new View_Driver(View_Main.this, c_driver);
         v_driver.add(v_driver.getDriverPanel());
         setContentPane(v_driver);
         // pack, center, and show your new view here

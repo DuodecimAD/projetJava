@@ -134,14 +134,13 @@ public class Driver {
      */
     @Override
     public String toString() {
-        return "****************************************"+
-                "\nCurrent Driver {" +
-                "\n    id_driver = " + driver_id +
+        return
+                "\nCurrent Driver :" +
+                "\n\n    id_driver = " + driver_id +
                 ",\n    first_name_driver = " + driver_first_name +
                 ",\n    last_name_driver = " + driver_last_name +
                 ",\n    age_driver = " + driver_age +
                 ",\n    address_driver = " + driver_address +
-                "\n}"+
-                "\n****************************************";
+                "\n";
     }
 }

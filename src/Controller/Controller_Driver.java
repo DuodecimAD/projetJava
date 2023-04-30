@@ -14,9 +14,10 @@ import java.util.Scanner;
 public class Controller_Driver {
 
     /** The List drivers. */
-    private final ArrayList<Driver> list_drivers = new ArrayList<>();
+    public final ArrayList<Driver> list_drivers = new ArrayList<>();
 
     private Driver current_driver;
+    //private View_Driver view_driver;
 
 
 
@@ -32,6 +33,8 @@ public class Controller_Driver {
         list_drivers.add(new Driver(4,"Sean", "Connery", 35, "sadly ..."));
 
         getLastDriver();
+
+
     }
 
     /**
@@ -199,31 +202,42 @@ public class Controller_Driver {
 
     }
 
+    public int getCurrentIndex(){
+        return list_drivers.indexOf(current_driver);
+    }
+
     /**
      * Driver previous.
      */
     public void goPreviousDriver(){
-        int next_index = list_drivers.indexOf(current_driver)-1;
+        int next_index = getCurrentIndex()-1;
         System.out.println(next_index);
         if(next_index >= 0){
             current_driver = list_drivers.get(next_index);
         }else{
-            System.out.println("\u001B[31m" + "You are already on the last Driver." + "\u001B[0m");
+            System.out.println(goPreviousDriverError());
         }
     }
+    public String goPreviousDriverError(){
+        return "You are on the first Driver.";
+    }
+
 
     /**
      * Driver next.
      */
     public void goNextDriver(){
-        int next_index = list_drivers.indexOf(current_driver)+1;
+        int next_index = getCurrentIndex()+1;
 
         if(next_index < list_drivers.size()){
             current_driver = list_drivers.get(next_index);
         }else{
-            System.out.println("\u001B[31m" + "You are already on the last Driver." + "\u001B[0m");
+            System.out.println(goNextDriverError());
         }
 
+    }
+    public String goNextDriverError(){
+        return "You are on the last Driver.";
     }
 
     public void getFirstDriver() {
@@ -234,6 +248,11 @@ public class Controller_Driver {
        current_driver = list_drivers.get(list_drivers.size()-1);
 
     }
+
+    public Driver getCurrentDriver() {
+        return current_driver;
+    }
+
 
 
 
