@@ -253,8 +253,9 @@ public class Controller_Driver {
         return current_driver;
     }
 
-
-
+    public void setCurrent_driver(Driver current_driver) {
+        this.current_driver = current_driver;
+    }
 
     /**
      * Driver select.

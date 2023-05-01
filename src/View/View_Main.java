@@ -75,6 +75,8 @@ public class View_Main extends JFrame{
         v_driver = new View_Driver(View_Main.this, c_driver);
         v_driver.add(v_driver.getDriverPanel());
         setContentPane(v_driver);
+        //revalidate();
+        //repaint();
         // pack, center, and show your new view here
         //pack();
         //setVisible(true);
