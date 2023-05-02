@@ -52,7 +52,7 @@
             </constraints>
             <properties>
               <font size="16"/>
-              <text value="Travels"/>
+              <text value="Travel's Menu"/>
             </properties>
           </component>
           <component id="47538" class="javax.swing.JButton" binding="statsButton" default-binding="true">
@@ -63,7 +63,7 @@
             </constraints>
             <properties>
               <font size="16"/>
-              <text value="Stats"/>
+              <text value="Stats's Menu"/>
             </properties>
           </component>
           <component id="178e7" class="javax.swing.JButton" binding="trucksButton" default-binding="true">
@@ -74,7 +74,7 @@
             </constraints>
             <properties>
               <font size="16"/>
-              <text value="Trucks"/>
+              <text value="Truck's Menu"/>
             </properties>
           </component>
           <component id="e2a9a" class="javax.swing.JButton" binding="driversButton">
@@ -85,7 +85,7 @@
             </constraints>
             <properties>
               <font size="16"/>
-              <text value="Drivers"/>
+              <text value="Driver's Menu"/>
             </properties>
           </component>
         </children>

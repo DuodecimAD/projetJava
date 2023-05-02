@@ -53,6 +53,7 @@ public class Controller_Travel {
         pos_current = pos_last = 7;
         pos_first = 0;
         pos_count = 8;
+
     }
 
     /**
@@ -62,7 +63,8 @@ public class Controller_Travel {
      * @param c_truck the c truck
      */
     public void menu(Controller_Driver c_driver, Controller_Truck c_truck){
-    	
+
+
         Scanner scanner = new Scanner(System.in);
         int choix;
 
@@ -281,12 +283,7 @@ public class Controller_Travel {
         pos_current= choix;
     }
 
-    /**
-     * Travel update.
-     *
-     * @param c_driver the c driver
-     * @param c_truck the c truck
-     */
+
     public void Travel_Update(Controller_Driver c_driver, Controller_Truck c_truck){
     	
         int choix = 0;
@@ -338,67 +335,15 @@ public class Controller_Travel {
         }while(choix !=9);
     }
 
-    /**
-     * Stats.
-     *
-     * @param c_driver the c driver
-     * @param c_truck the c truck
-     */
-    public void stats(Controller_Driver c_driver, Controller_Truck c_truck){
-    	
-        Scanner scanner = new Scanner(System.in);
-        int choix;
-        do
-        {
-            System.out.println("\u001B[36m");
-            System.out.println("******************");
-            System.out.println("*** Stats Menu ***");
-            System.out.println("******************");
-            System.out.print("\u001B[0m");
-            System.out.println("1. List each Truck drove by a selected Driver");
-            System.out.println("2. List each Driver who drove a selected Truck");
-            System.out.println("3. Show Driver who drove the most different Trucks");
-            System.out.println("4. Show Truck which has been driven the most by different Drivers");
-            System.out.println("5. Show Driver who drove the longest single Travel");
-            System.out.println("6. Show Truck which has the longest single Travel");
-            System.out.println("7. Show Driver who drove the most");
-            System.out.println("8. Show Truck which has been driven the most");
-            System.out.println("9. Back to Main menu..");
-            System.out.println("Your choice ? : ");
-            choix = scanner.nextInt();
-            scanner.nextLine();
+   public String List_truck_by_driver(Controller_Driver c_driver, Controller_Truck c_truck, int d_selected){
 
-            switch (choix) {
-           //     case 1 -> List_truck_by_driver(c_driver,c_truck);
-                case 2 -> List_driver_used_truck(c_driver,c_truck);
-                case 3 -> Travels_byDriver(c_driver);
-                case 4 -> Travels_byTruck(c_truck);
-                case 5 -> Top_sDriver(c_driver);
-                case 6 -> Top_sTruck(c_truck);
-                case 7 -> Total_Driver(c_driver);
-                case 8 -> Total_Truck(c_truck);
-                case 9 -> System.out.println("Back to Main menu..");
-                default -> System.out.println("\u001B[31m" + "Error, please choose a number from the menu" + "\u001B[0m");
-            }
-        }while(choix !=9);
-    }
-
-
-    /**
-     * List truck by driver.
-     *
-     * @param c_driver the c driver
-     * @param c_truck the c truck
-     */
-/*    public void List_truck_by_driver(Controller_Driver c_driver, Controller_Truck c_truck){
-
-        int driver = c_driver.Driver_Select();
+        int driver = d_selected;
 
         String drove[] = new String[c_truck.Truck_length()];
         int count = 0;
 
-        System.out.print("\u001B[95m");
-        System.out.print("You have selected Driver "+ c_driver.Driver_display_name(driver) + " and he drove ");
+
+        String string = "You have selected Driver "+ c_driver.Driver_display_name(driver) + " and he drove ";
         for (int i = 0; i < pos_count; i++) {
             if(!list_Travels[i].isIs_deleted() && list_Travels[i].getDriver_fk() == driver){
 
@@ -421,21 +366,21 @@ public class Controller_Travel {
         }
 
         if(count == 1){
-            System.out.println(count + " Truck : ");
-            System.out.print(drove[0] + ".");
+            string += count + " Truck : ";
+            string += drove[0] + ".";
         }else {
-            System.out.println(count + " Trucks : ");
+            string += count + " Trucks : ";
             for (int i = 0; i < count; i++) {
                 if(i == count-1){
-                    System.out.print(drove[i] + ".");
+                    string += drove[i] + ".";
                 }else if(i == count-2){
-                    System.out.print(drove[i] + " and ");
+                    string += drove[i] + " and ";
                 }else {
-                    System.out.print(drove[i] + ", ");
+                    string += drove[i] + ", ";
                 }
             }
         }
-        System.out.println("\u001B[0m");
+        return string;
     }
 
     /**
@@ -444,15 +389,15 @@ public class Controller_Travel {
      * @param c_driver the c driver
      * @param c_truck the c truck
      */
-    public void List_driver_used_truck(Controller_Driver c_driver, Controller_Truck c_truck){
+    public String List_driver_used_truck(Controller_Driver c_driver, Controller_Truck c_truck, int d_selected){
 
-        int truck = c_truck.Truck_Select();
+        int truck = d_selected;
 
         String driven[] = new String[c_driver.Driver_length()];
         int count = 0;
 
-        System.out.print("\u001B[95m");
-        System.out.print("You have selected Truck "+ c_truck.Truck_display_name(truck) + " and it Had been driven by ");
+
+        String string = "You have selected Truck "+ c_truck.Truck_display_name(truck) + " and it Had been driven by ";
         for (int i = 0; i < pos_count; i++) {
             if(!list_Travels[i].isIs_deleted() && list_Travels[i].getTruck_fk() == truck) {
 
@@ -474,21 +419,21 @@ public class Controller_Travel {
         }
 
         if(count == 1){
-            System.out.println(count + " Driver : ");
-            System.out.print(driven[0] + ".");
+            string += count + " Driver : ";
+            string += driven[0] + ".";
         }else {
-            System.out.println(count + " Drivers : ");
+            string += count + " Drivers : ";
             for (int i = 0; i < count; i++) {
                 if(i == count-1){
-                    System.out.print(driven[i] + ".");
+                    string += driven[i] + ".";
                 }else if(i == count-2){
-                    System.out.print(driven[i] + " and ");
+                    string += driven[i] + " and ";
                 }else {
-                    System.out.print(driven[i] + ", ");
+                    string += driven[i] + ", ";
                 }
             }
         }
-        System.out.println("\u001B[0m");
+        return string;
     }
 
     /**
@@ -496,7 +441,7 @@ public class Controller_Travel {
      *
      * @param c_driver the c driver
      */
-    public void Travels_byDriver(Controller_Driver c_driver){
+    public String Travels_byDriver(Controller_Driver c_driver){
 
         // nb drivers
         int drivers = c_driver.Driver_length();
@@ -523,11 +468,11 @@ public class Controller_Travel {
             }
         }
 
-        System.out.print("\u001B[95m");
+
         if (count == 1){
             for (int i = 0; i < drivers; i++) {
                 if( travels[i] == max){
-                    System.out.println("Driver " + c_driver.Driver_display_name(travels[i]) + " drove " + max + " Trucks, which is the most.");
+                    return "Driver " + c_driver.Driver_display_name(travels[i]) + " drove " + max + " Trucks.";
                 }
             }
         } else {
@@ -540,19 +485,22 @@ public class Controller_Travel {
                 }
             }
 
-            System.out.print("Drivers ");
+            String string = "Drivers ";
             for (int i = 0; i < count; i++) {
                 if(i == count-1){
-                    System.out.print(names[i] + " ");
+                    string += names[i] + " ";
                 }else if(i == count-2){
-                    System.out.print(names[i] + " and ");
+                    string += names[i] + " and ";
                 }else {
-                    System.out.print(names[i] + ", ");
+                    string += names[i] + ", ";
                 }
             }
-            System.out.println("drove " + max + " Trucks, which is the most.");
+            string += "drove " + max + " Trucks.";
+            return string;
         }
-        System.out.println("\u001B[0m");
+
+        return "error";
+
     }
 
     /**
@@ -560,7 +508,7 @@ public class Controller_Travel {
      *
      * @param c_truck the c truck
      */
-    public void Travels_byTruck(Controller_Truck c_truck){
+    public String Travels_byTruck(Controller_Truck c_truck){
 
         // nb drivers
         int trucks = 0;
@@ -593,11 +541,11 @@ public class Controller_Travel {
             }
         }
 
-        System.out.print("\u001B[95m");
+
         if (count == 1){
             for (int i = 0; i < trucks; i++) {
                 if( travels[i] == max){
-                    System.out.println("Truck " + c_truck.Truck_display_name(travels[i]) + " has been driven by " + max + " Drivers, which is the most.");
+                    return "Truck " + c_truck.Truck_display_name(travels[i]) + " has been driven by " + max + " Drivers.";
                 }
             }
         } else {
@@ -610,19 +558,20 @@ public class Controller_Travel {
                 }
             }
 
-            System.out.print("Trucks ");
+            String string = "Truck ";
             for (int i = 0; i < count; i++) {
                 if(i == count-1){
-                    System.out.print(names[i] + " ");
+                    string += names[i] + " ";
                 }else if(i == count-2){
-                    System.out.print(names[i] + " and ");
+                    string += names[i] + " and ";
                 }else {
-                    System.out.print(names[i] + ", ");
+                    string += names[i] + ", ";
                 }
             }
-            System.out.println("have been driven by " + max + " Drivers, which is the most.");
+            string += "have been driven by " + max + " Drivers.";
+            return string;
         }
-        System.out.println("\u001B[0m");
+    return "error";
     }
 
     /**
@@ -630,7 +579,7 @@ public class Controller_Travel {
      *
      * @param c_driver the c driver
      */
-    public void Top_sDriver(Controller_Driver c_driver){
+    public String Top_sDriver(Controller_Driver c_driver){
         int highest_km = 0;
         int top_driver = -1;
 
@@ -640,9 +589,9 @@ public class Controller_Travel {
                 top_driver = list_Travels[i].getDriver_fk();
             }
         }
-        System.out.print("\u001B[95m");
-        System.out.println("Driver " + c_driver.Driver_display_name(top_driver) + " has the longest single Travel with " + highest_km + " km.");
-        System.out.print("\u001B[0m");
+
+        return "Driver " + c_driver.Driver_display_name(top_driver) + " has the longest single Travel with " + highest_km + " km.";
+
     }
 
     /**
@@ -650,7 +599,7 @@ public class Controller_Travel {
      *
      * @param c_truck the c truck
      */
-    public void Top_sTruck(Controller_Truck c_truck){
+    public String Top_sTruck(Controller_Truck c_truck){
         int highest_km = 0;
         int top_truck = -1;
 
@@ -660,9 +609,9 @@ public class Controller_Travel {
                 top_truck = list_Travels[i].getDriver_fk();
             }
         }
-        System.out.print("\u001B[95m");
-        System.out.println("Truck " + c_truck.Truck_display_name(top_truck) + " has the longest single Travel with " + highest_km + " km.");
-        System.out.print("\u001B[0m");
+
+        return "Truck " + c_truck.Truck_display_name(top_truck) + " has the longest single Travel with " + highest_km + " km.";
+
     }
 
     /**
@@ -670,7 +619,7 @@ public class Controller_Travel {
      *
      * @param c_driver the c driver
      */
-    public void Total_Driver(Controller_Driver c_driver){
+    public String Total_Driver(Controller_Driver c_driver){
 
         int nbDrivers = c_driver.Driver_length();
         int nbTravels = pos_count;
@@ -696,9 +645,9 @@ public class Controller_Travel {
             }
         }
 
-        System.out.print("\u001B[95m");
-        System.out.println("Driver " + c_driver.Driver_display_name(index) + " drove the most with " + km_byDriver[index] + " km.");
-        System.out.print("\u001B[0m");
+
+        return "Driver " + c_driver.Driver_display_name(index) + " drove the most with " + km_byDriver[index] + " km.";
+
     }
 
     /**
@@ -706,7 +655,7 @@ public class Controller_Travel {
      *
      * @param c_truck the c truck
      */
-    public void Total_Truck(Controller_Truck c_truck){
+    public String Total_Truck(Controller_Truck c_truck){
     	
         int nbTrucks = c_truck.Truck_length();
         int nbTravels = pos_count;
@@ -732,8 +681,12 @@ public class Controller_Travel {
             }
         }
 
-        System.out.print("\u001B[95m");
-        System.out.println("Truck " + c_truck.Truck_display_name(index) + " has been driven the most with " + km_byTruck[index] + " km.");
-        System.out.print("\u001B[0m");
+
+        return "Truck " + c_truck.Truck_display_name(index) + " has been driven the most with " + km_byTruck[index] + " km.";
+
+    }
+
+    public int Travel_length(){
+        return list_Travels.length;
     }
 }

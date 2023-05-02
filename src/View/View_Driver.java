@@ -2,19 +2,16 @@ package View;
 
 import Controller.Controller_Driver;
 import Model.Driver;
-
-
 import javax.swing.*;
-import java.awt.*;
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 
 import static java.lang.Integer.parseInt;
 
 public class View_Driver extends JPanel{
-   // private JFrame frame;
-  //  private View_Main mainView;
-
     private JPanel driverPanel;
     private JPanel menuPanel;
     private JButton newDriverButton;
@@ -31,8 +28,8 @@ public class View_Driver extends JPanel{
     private JButton backMainMenuButton;
     private JTextPane messagePane;
     private JPanel contentPanel;
-    private JComboBox selectCombo = new JComboBox();
-    private JComboBox updateCombo = new JComboBox();
+    private final JComboBox<Driver> selectCombo = new JComboBox<>();
+    private final JComboBox<Driver> updateCombo = new JComboBox<>();
     private JTextField firstName;
     private JTextField lastName;
     private JTextField age;
@@ -40,26 +37,9 @@ public class View_Driver extends JPanel{
     private final JButton createButton = new JButton("Create");
     private final JButton updateButton = new JButton("Update");
 
-
     public View_Driver(View_Main vm, Controller_Driver c_driver) {
 
-        //this.frame = frame;
-        //this.mainView = mainView;
-        //JPanel driverPanel = new JPanel();
         vm.setContentPane(driverPanel);
-        //frame.revalidate();
-
-        backMainMenuButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-
-                vm.setContentPane(vm.getMainPanel());
-                //frame.pack();
-                vm.revalidate(); // Refresh the frame to show the main panel
-               // frame.repaint();
-                //frame.setVisible(true);
-            }
-        });
 
         if(c_driver.Driver_length() != 0) {
             //TextPanel Drivers
@@ -67,6 +47,18 @@ public class View_Driver extends JPanel{
         }else{
             driverTextPane.setText("There are no Drivers, please click New Driver to create a Driver");
         }
+
+        backMainMenuButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                vm.setContentPane(vm.getMainPanel());
+                //frame.pack();
+                vm.revalidate();
+                // frame.repaint();
+                //frame.setVisible(true);
+            }
+        });
 
         previousButton.addActionListener(new ActionListener() {
             @Override
@@ -126,7 +118,7 @@ public class View_Driver extends JPanel{
                     selectCombo.addItem(c_driver.list_drivers.get(i));
                 }*/
                 //selectCombo.setPreferredSize(new Dimension(200, 30));
-                selectCombo.setBounds(50,100,1000,50);
+                selectCombo.setBounds(50,50,1000,50);
                 driverTextPane.setText("Select the Driver :");
                 driverTextPane.add(selectCombo);
 
@@ -272,8 +264,6 @@ public class View_Driver extends JPanel{
 
                 c_driver.setCurrent_driver(c_driver.list_drivers.get(updateCombo.getSelectedIndex()));
 
-
-
                 JLabel firstNameLabel = new JLabel();
                 firstNameLabel.setText("First Name : ");
                 firstNameLabel.setBounds(10,120,100,30);
@@ -323,14 +313,9 @@ public class View_Driver extends JPanel{
                 driverTextPane.add(address);
 
                 updateButton.setBounds(100,470,100,30);
-                //create.setBackground(new Color(255,255,255));
                 driverTextPane.add(updateButton);
 
                 driverTextPane.repaint();
-
-                //driverTextPane.setText(c_driver.getCurrentDriver().toString());
-
-
 
             }
         });
@@ -390,6 +375,7 @@ public class View_Driver extends JPanel{
                 }
             }
         });
+
     }
 
     public JPanel getDriverPanel() {
