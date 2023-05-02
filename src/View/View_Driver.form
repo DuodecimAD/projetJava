@@ -25,33 +25,13 @@
         <children>
           <component id="7f54f" class="javax.swing.JButton" binding="newDriverButton">
             <constraints>
-              <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false">
+              <grid row="4" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false">
                 <preferred-size width="25" height="30"/>
               </grid>
             </constraints>
             <properties>
               <enabled value="true"/>
               <text value="New Driver"/>
-            </properties>
-          </component>
-          <component id="e57b7" class="javax.swing.JButton" binding="updateDriverButton">
-            <constraints>
-              <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false">
-                <minimum-size width="100" height="-1"/>
-              </grid>
-            </constraints>
-            <properties>
-              <text value="Update Driver"/>
-            </properties>
-          </component>
-          <component id="1842" class="javax.swing.JButton" binding="selectDriverButton">
-            <constraints>
-              <grid row="4" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false">
-                <preferred-size width="25" height="30"/>
-              </grid>
-            </constraints>
-            <properties>
-              <text value="Select Driver"/>
             </properties>
           </component>
           <grid id="b5c87" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
@@ -74,14 +54,34 @@
               </component>
             </children>
           </grid>
+          <component id="1842" class="javax.swing.JButton" binding="selectDriverButton">
+            <constraints>
+              <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false">
+                <preferred-size width="25" height="30"/>
+              </grid>
+            </constraints>
+            <properties>
+              <text value="Select Driver"/>
+            </properties>
+          </component>
           <component id="4fdff" class="javax.swing.JButton" binding="deleteDriverButton">
             <constraints>
-              <grid row="3" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false">
+              <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false">
                 <preferred-size width="25" height="30"/>
               </grid>
             </constraints>
             <properties>
               <text value="Delete Driver"/>
+            </properties>
+          </component>
+          <component id="e57b7" class="javax.swing.JButton" binding="updateDriverButton">
+            <constraints>
+              <grid row="3" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false">
+                <minimum-size width="100" height="-1"/>
+              </grid>
+            </constraints>
+            <properties>
+              <text value="Update Driver"/>
             </properties>
           </component>
         </children>
