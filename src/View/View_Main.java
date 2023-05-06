@@ -78,10 +78,9 @@ public class View_Main extends JFrame{
     }
 
     public void show_View_Truck() {
-        View_Truck v_truck = new View_Truck();
+        View_Truck v_truck = new View_Truck(View_Main.this, c_truck);
+        v_truck.add(v_truck.getTruckPanel());
         setContentPane(v_truck);
-        // pack, center, and show your new view here
-        pack();
     }
 
     public void show_View_Travel() {
@@ -93,7 +92,7 @@ public class View_Main extends JFrame{
 
     public void show_View_Stats() {
         View_Stats v_stats = new View_Stats(View_Main.this, c_travel, c_driver, c_truck);
-        v_stats.add(v_stats.getDriverPanel());
+        v_stats.add(v_stats.getStatPanel());
         setContentPane(v_stats);
     }
 

@@ -6,9 +6,6 @@ import javax.swing.*;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
-
 import static java.lang.Integer.parseInt;
 
 public class View_Driver extends JPanel{
@@ -66,7 +63,7 @@ public class View_Driver extends JPanel{
                 messagePane.setText("");
                 c_driver.goPreviousDriver();
                 driverTextPane.setText(c_driver.getCurrentDriver().toString());
-                if(c_driver.getCurrentIndex() == 0){
+                if(c_driver.getDriverCurrentIndex() == 0){
                     messagePane.setText(c_driver.goPreviousDriverError());
                 }
             }
@@ -78,7 +75,7 @@ public class View_Driver extends JPanel{
                 messagePane.setText("");
                 c_driver.goNextDriver();
                 driverTextPane.setText(c_driver.getCurrentDriver().toString());
-                if(c_driver.getCurrentIndex() == c_driver.Driver_length()-1){
+                if(c_driver.getDriverCurrentIndex() == c_driver.Driver_length()-1){
                     messagePane.setText(c_driver.goNextDriverError());
                 }
             }
@@ -349,9 +346,9 @@ public class View_Driver extends JPanel{
                     driverTextPane.setText(c_driver.getCurrentDriver().toString());
 
 
-                    if(c_driver.getCurrentIndex() == 0){
+                    if(c_driver.getDriverCurrentIndex() == 0){
                         messagePane.setText(c_driver.goPreviousDriverError());
-                    } else if (c_driver.getCurrentIndex() == c_driver.Driver_length()-1) {
+                    } else if (c_driver.getDriverCurrentIndex() == c_driver.Driver_length()-1) {
                         messagePane.setText(c_driver.goNextDriverError());
                     }
 

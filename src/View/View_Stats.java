@@ -174,7 +174,7 @@ public class View_Stats extends JPanel {
 
     }
 
-    public JPanel getDriverPanel() {
+    public JPanel getStatPanel() {
         return statsPanel;
     }
 

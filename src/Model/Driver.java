@@ -8,7 +8,6 @@ package Model;
  */
 public class Driver {
     
-
     /** The driver id. */
     private int driver_id;
 

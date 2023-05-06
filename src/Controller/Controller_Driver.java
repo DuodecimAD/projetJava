@@ -26,11 +26,11 @@ public class Controller_Driver {
         }
         getLastDriver();
     }
-    public int getCurrentIndex(){
+    public int getDriverCurrentIndex(){
         return list_drivers.indexOf(current_driver);
     }
     public void goPreviousDriver(){
-        int next_index = getCurrentIndex()-1;
+        int next_index = getDriverCurrentIndex()-1;
         System.out.println(next_index);
         if(next_index >= 0){
             current_driver = list_drivers.get(next_index);
@@ -42,7 +42,7 @@ public class Controller_Driver {
         return "You are on the first Driver.";
     }
     public void goNextDriver(){
-        int next_index = getCurrentIndex()+1;
+        int next_index = getDriverCurrentIndex()+1;
 
         if(next_index < list_drivers.size()){
             current_driver = list_drivers.get(next_index);
