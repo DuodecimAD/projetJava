@@ -355,7 +355,7 @@ public class View_Truck extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
 
-                System.out.println(c_truck.Truck_length()-1);
+              //  System.out.println(c_truck.Truck_length()-1);
 
                 try {
                     c_truck.Truck_Delete();

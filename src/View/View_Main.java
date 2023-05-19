@@ -27,7 +27,7 @@ public class View_Main extends JFrame{
 
         show_View_Main();
         setContentPane(mainPanel);
-        setTitle("Projet Java Antony");
+        setTitle("Project Java Antony");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setPreferredSize(new Dimension(1280, 720));
 
@@ -84,10 +84,9 @@ public class View_Main extends JFrame{
     }
 
     public void show_View_Travel() {
-        View_Travel v_travel = new View_Travel();
+        View_Travel v_travel = new View_Travel(View_Main.this, c_travel);
+        v_travel.add(v_travel.getTravelPanel());
         setContentPane(v_travel);
-        // pack, center, and show your new view here
-        pack();
     }
 
     public void show_View_Stats() {

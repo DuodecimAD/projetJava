@@ -112,9 +112,15 @@ public class View_Stats extends JPanel {
         statTextPane.add(label7);
 
         JComboBox<String> selectDriverCombo = new JComboBox<>();
-        for (int i = 0; i < c_driver.Driver_length(); i++) {
-            selectDriverCombo.addItem("Driver "+i+" : "+c_driver.Driver_display_name(i));
+        try {
+            for (int i = 0; i < c_driver.Driver_length(); i++) {
+                selectDriverCombo.addItem("Driver "+i+" : "+c_driver.Driver_display_name(i));
+            }
+        } catch (Exception e) {
+            System.out.println("error here");
         }
+
+
 //        selectDriverCombo.setModel(new DefaultComboBoxModel<>(c_driver.list_drivers.toArray(new Driver[0])));
         selectDriverCombo.setBounds(10,330,200,30);
         statTextPane.add(selectDriverCombo);
@@ -140,8 +146,13 @@ public class View_Stats extends JPanel {
         statTextPane.add(label8);
 
         JComboBox<String> selectTruckCombo = new JComboBox<>();
-        for (int i = 0; i < c_truck.Truck_length(); i++) {
-            selectTruckCombo.addItem("Truck "+i+" : "+c_truck.Truck_display_name(i));
+
+        try {
+            for (int i = 0; i < c_truck.Truck_length(); i++) {
+                selectTruckCombo.addItem("Truck "+i+" : "+c_truck.Truck_display_name(i));
+            }
+        } catch (Exception e) {
+            System.out.println("error 2");
         }
 
         //selectTruckCombo.setModel(new DefaultComboBoxModel<>(c_truck.list_Truck.toArray(new Driver[0])));

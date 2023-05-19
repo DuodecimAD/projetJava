@@ -231,6 +231,8 @@ public class View_Driver extends JPanel{
 
                     navPanel.setVisible(true);
                     messagePane.setVisible(true);
+
+                    //System.out.println(c_driver.list_drivers);
                 }
             }
         });
@@ -362,7 +364,7 @@ public class View_Driver extends JPanel{
             @Override
             public void actionPerformed(ActionEvent e) {
 
-                System.out.println(c_driver.Driver_length()-1);
+               // System.out.println(c_driver.Driver_length()-1);
 
                 try {
                     c_driver.Driver_Delete();

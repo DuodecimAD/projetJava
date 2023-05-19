@@ -1,8 +1,10 @@
 package Controller;
 
+import Model.Driver;
 import Model.Travel;
 import Model.Truck;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Objects;
 import java.util.Scanner;
 
@@ -17,7 +19,7 @@ public class Controller_Travel {
     private Travel current_travel;
 
     public Controller_Travel() {
-        list_travels.add(new Travel(0,0, 1, 59, "19/03/2023"));
+        list_travels.add(new Travel(0,0, 1, 63, "19/03/2023"));
         list_travels.add(new Travel(1,1, 2, 25, "19/03/2023"));
         list_travels.add(new Travel(2,2, 3, 67, "19/03/2023"));
         list_travels.add(new Travel(3,3, 4, 91, "19/03/2023"));
@@ -26,6 +28,7 @@ public class Controller_Travel {
         list_travels.add(new Travel(6,1, 1, 55, "20/03/2023"));
         list_travels.add(new Travel(7,2, 2, 82, "20/03/2023"));
 
+        getLastTravel();
     }
 
 
@@ -44,18 +47,26 @@ public class Controller_Travel {
 //                        case 8 -> Travel_Select(c_driver,c_truck);
 
 
-
-    public int getTravelCurrentIndex(){ return list_travels.indexOf(current_travel); }
+    public Travel getCurrentTravel() {
+        return current_travel;
+    }
+    public void setCurrent_travel(Travel current_travel) {
+        this.current_travel = current_travel;
+    }
+    public int getTravelCurrentIndex(){
+        return list_travels.indexOf(current_travel);
+    }
     public void goPreviousTravel(){
         int next_index = getTravelCurrentIndex()-1;
         System.out.println(next_index);
         if(next_index >= 0){
             current_travel = list_travels.get(next_index);
         }else{
-            System.out.println(goPreviousDriverError());
+            System.out.println(goPreviousTravelError());
         }
     }
-    public String goPreviousDriverError(){
+
+    public String goPreviousTravelError(){
         return "You are on the first Travel.";
     }
     public void goNextTravel(){
@@ -71,7 +82,24 @@ public class Controller_Travel {
     public String goNextTravelError(){
         return "You are on the last Travel.";
     }
+    public void getFirstTravel() {
+        current_travel = list_travels.get(0);
+    }
+    public void getLastTravel() {
+        current_travel = list_travels.get(list_travels.size()-1);
+    }
 
+    public void Travel_Delete(){
+        list_travels.remove(current_travel);
+
+        for (int i = 0; i < list_travels.size(); i++) {
+            list_travels.get(i).setTravel_id(i);
+        }
+
+        //System.out.println(list_drivers.get(0).getTravel_id());
+        getLastTravel();
+
+    }
 
    public String List_truck_by_driver(Controller_Driver c_driver, Controller_Truck c_truck, int driver_selected){
 
@@ -177,8 +205,14 @@ public class Controller_Travel {
 
         // nb trucks used by each driver
         int travels[] = new int[drivers];
-        for (int i = 0; i < list_travels.size(); i++) {
+
+
+        try {
+            for (int i = 0; i < list_travels.size(); i++) {
                 travels[list_travels.get(i).getDriver_fk()]++;
+            }
+        } catch (Exception e) {
+            System.out.println("error : " + e);
         }
 
         // find max
@@ -332,12 +366,17 @@ public class Controller_Travel {
         int highest_km = 0;
         int top_truck = -1;
 
-        for (int i = 0; i < list_travels.size(); i++) {
-            if (list_travels.get(i).getTravel_km() > highest_km){
-                highest_km = list_travels.get(i).getTravel_km();
-                top_truck = list_travels.get(i).getDriver_fk();
+        try {
+            for (int i = 0; i < list_travels.size(); i++) {
+                if (list_travels.get(i).getTravel_km() > highest_km){
+                    highest_km = list_travels.get(i).getTravel_km();
+                    top_truck = list_travels.get(i).getDriver_fk();
+                }
             }
+        } catch (Exception e) {
+            System.out.println("error : " + e);
         }
+
 
         return "Truck " + c_truck.Truck_display_name(top_truck) + " has the longest single Travel with " + highest_km + " km.";
 
@@ -350,32 +389,35 @@ public class Controller_Travel {
      */
     public String Total_Driver(Controller_Driver c_driver){
 
-        int nbDrivers = c_driver.Driver_length();
-        int nbTravels = list_travels.size();
-        int km_byDriver[] = new int[nbDrivers];
-        int highest_km = 0;
-        int top_driver = -1;
+        HashMap<Driver, Integer> highest_km = new HashMap<>();
 
-        for (int i = 0; i < nbTravels; i++) {
-            km_byDriver[list_travels.get(i).getDriver_fk()] += list_travels.get(i).getTravel_km();
+        // Initialize the distance for each driver to 0
+        for (Driver driver : c_driver.list_drivers) {
+            highest_km.put(driver, 0);
         }
 
-        int max = 0;
-        for (int i = 0; i < nbDrivers; i++) {
-            if (km_byDriver[i] > max){
-                max = km_byDriver[i];
+        // Iterate over the travels and update the distance for each driver
+        for (Travel travel : list_travels) {
+            Driver driver = c_driver.list_drivers.get(travel.getDriver_fk());
+            int distance = travel.getTravel_km();
+
+            // Update the distance for the driver
+            highest_km.put(driver, highest_km.get(driver) + distance);
+        }
+
+        int totalDistance = 0;
+        int best_Driver = -1;
+        // Print the total distance traveled by each driver
+        for (Driver driver : c_driver.list_drivers) {
+            if (highest_km.get(driver) > totalDistance) {
+                totalDistance = highest_km.get(driver);
+                best_Driver = driver.getDriver_id();
             }
         }
 
-        int index = -1;
-        for (int i = 0; i < nbDrivers; i++) {
-            if (km_byDriver[i] == max){
-                index = i;
-            }
-        }
+        System.out.println(highest_km);
 
-
-        return "Driver " + c_driver.Driver_display_name(index) + " drove the most with " + km_byDriver[index] + " km.";
+        return "Driver " + c_driver.Driver_display_name(best_Driver) + " drove the most with " + totalDistance + " km.";
 
     }
 
@@ -385,7 +427,7 @@ public class Controller_Travel {
      * @param c_truck the c truck
      */
     public String Total_Truck(Controller_Truck c_truck){
-    	
+
         int nbTrucks = c_truck.Truck_length();
         int nbTravels = list_travels.size();
         int km_byTruck[] = new int[nbTrucks];

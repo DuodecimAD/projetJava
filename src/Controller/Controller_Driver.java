@@ -24,8 +24,13 @@ public class Controller_Driver {
         for (int i = 0; i < list_drivers.size(); i++) {
             list_drivers.get(i).setDriver_id(i);
         }
+
+        //System.out.println(list_drivers.get(0).getDriver_id());
         getLastDriver();
+
     }
+
+
     public int getDriverCurrentIndex(){
         return list_drivers.indexOf(current_driver);
     }
