@@ -28,25 +28,21 @@ public class Controller_Driver {
         getLastDriver();
     }
 
+    public int getDriverCurrentIndex(){
+        return current_driver.getDriver_id();
+    }
     public void Driver_Delete(){
         map_drivers.remove(current_driver.getDriver_id());
 
-
-
-//        for (int i = 0; i < list_drivers.size(); i++) {
-//            list_drivers.get(i).setDriver_id(i);
-//        }
-
-        //System.out.println(list_drivers.get(0).getDriver_id());
         getLastDriver();
 
     }
-
 
     public void goPreviousDriver(){
         for (int i = 1; i < map_drivers.size(); i++) {
             if(map_drivers.containsKey(current_driver.getDriver_id()-i)) {
                 current_driver = map_drivers.get(current_driver.getDriver_id()-i);
+                return;
             }
         }
     }
@@ -57,6 +53,7 @@ public class Controller_Driver {
         for (int i = 1; i < map_drivers.size(); i++) {
             if(map_drivers.containsKey(current_driver.getDriver_id()+i)) {
                 current_driver = map_drivers.get(current_driver.getDriver_id()+i);
+                return;
             }
         }
     }
@@ -64,19 +61,22 @@ public class Controller_Driver {
         return "You are on the last Driver.";
     }
     public void getFirstDriver() {
-        current_driver = map_drivers.get(0);
+//        int firstKey = -1;
+        for (int key : map_drivers.keySet()) {
+            current_driver = map_drivers.get(key);
+            return;
+        }
     }
+
     public void getLastDriver() {
 
-        int maxKey = -1;
+        int lastKey = -1;
 
-        for (Map.Entry<Integer, Driver> driver : map_drivers.entrySet()) {
-            int key = driver.getKey();
-            if (key > maxKey) {
-                maxKey = key;
-            }
+        for (int key : map_drivers.keySet()) {
+            lastKey = key;
+
         }
-        current_driver = map_drivers.get(maxKey);
+        current_driver = map_drivers.get(lastKey);
 
     }
     public Driver getCurrentDriver() {
@@ -86,7 +86,14 @@ public class Controller_Driver {
         this.current_driver = current_driver;
     }
     public String Driver_display_name(int i){
-        return map_drivers.get(i).getDriver_first_name()+" "+ map_drivers.get(i).getDriver_last_name();
+
+        try {
+            return map_drivers.get(i).getDriver_first_name()+" "+ map_drivers.get(i).getDriver_last_name();
+        }catch (Exception e){
+            System.out.println("error : "+e);
+            return "Deleted";
+        }
+
     }
     public int Driver_length(){
         return map_drivers.size();

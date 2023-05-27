@@ -389,29 +389,31 @@ public class Controller_Travel {
      */
     public String Total_Driver(Controller_Driver c_driver){
 
-        HashMap<Driver, Integer> highest_km = new HashMap<>();
+        HashMap<Integer, Integer> highest_km = new HashMap<>();
 
         // Initialize the distance for each driver to 0
-        for (Driver driver : c_driver.list_drivers) {
-            highest_km.put(driver, 0);
+        for (int key : c_driver.map_drivers.keySet()) {
+            highest_km.put(key, 0);
         }
 
         // Iterate over the travels and update the distance for each driver
         for (Travel travel : list_travels) {
-            Driver driver = c_driver.list_drivers.get(travel.getDriver_fk());
+            Driver driver = c_driver.map_drivers.get(travel.getDriver_fk());
             int distance = travel.getTravel_km();
 
             // Update the distance for the driver
-            highest_km.put(driver, highest_km.get(driver) + distance);
+            if (driver != null) {
+                highest_km.put(driver.getDriver_id(), highest_km.get(driver.getDriver_id()) + distance);
+            }
         }
 
         int totalDistance = 0;
         int best_Driver = -1;
         // Print the total distance traveled by each driver
-        for (Driver driver : c_driver.list_drivers) {
-            if (highest_km.get(driver) > totalDistance) {
-                totalDistance = highest_km.get(driver);
-                best_Driver = driver.getDriver_id();
+        for (int key : c_driver.map_drivers.keySet()) {
+            if (highest_km.get(key) > totalDistance) {
+                totalDistance = highest_km.get(key);
+                best_Driver = key;
             }
         }
 
@@ -428,32 +430,40 @@ public class Controller_Travel {
      */
     public String Total_Truck(Controller_Truck c_truck){
 
-        int nbTrucks = c_truck.Truck_length();
-        int nbTravels = list_travels.size();
-        int km_byTruck[] = new int[nbTrucks];
-        int highest_km = 0;
-        int top_driver = -1;
+        HashMap<Integer, Integer> km_byTruck = new HashMap<>();
 
-        for (int i = 0; i < nbTravels; i++) {
-            km_byTruck[list_travels.get(i).getDriver_fk()] += list_travels.get(i).getTravel_km();
+        // Initialize the distance for each driver to 0
+        for (int key : c_truck.map_trucks.keySet()) {
+            km_byTruck.put(key, 0);
         }
 
-        int max = 0;
-        for (int i = 0; i < nbTrucks; i++) {
-            if (km_byTruck[i] > max){
-                max = km_byTruck[i];
+        // Iterate over the travels and update the distance for each driver
+        for (Travel travel : list_travels) {
+            Truck truck = c_truck.map_trucks.get(travel.getTruck_fk());
+            int distance = travel.getTravel_km();
+
+            // Update the distance for the driver
+            if (truck != null) {
+                km_byTruck.put(truck.getTruck_id(), km_byTruck.get(truck.getTruck_id()) + distance);
             }
         }
 
-        int index = -1;
-        for (int i = 0; i < nbTrucks; i++) {
-            if (km_byTruck[i] == max){
-                index = i;
+        int totalDistance = 0;
+        int best_Truck = -1;
+        // Print the total distance traveled by each driver
+        for (int key : c_truck.map_trucks.keySet()) {
+            if (km_byTruck.get(key) > totalDistance) {
+                totalDistance = km_byTruck.get(key);
+                best_Truck = key;
             }
         }
 
+        System.out.println(km_byTruck);
 
-        return "Truck " + c_truck.Truck_display_name(index) + " has been driven the most with " + km_byTruck[index] + " km.";
+
+
+        return "Truck " + c_truck.Truck_display_name(best_Truck) +
+                " has been driven the most with " + totalDistance + " km.";
 
     }
 

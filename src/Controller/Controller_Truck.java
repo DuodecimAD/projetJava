@@ -1,63 +1,99 @@
 package Controller;
 
+import Model.Driver;
 import Model.Truck;
-import java.util.ArrayList;
+
+import java.util.LinkedHashMap;
 
 public class Controller_Truck {
-    public final ArrayList<Truck> list_trucks = new ArrayList<>();
+//    public final ArrayList<Truck> list_trucks = new ArrayList<>();
+    public final LinkedHashMap<Integer, Truck> map_trucks = new LinkedHashMap<>();
     private Truck current_truck;
 
     public Controller_Truck() {
 
-        list_trucks.add(new Truck(0,"Volvo", "FHL16", 2007, "Volvo"));
-        list_trucks.add(new Truck(1,"Scanio", "RY730", 2015, "Scania"));
-        list_trucks.add(new Truck(2,"Actro", "HQS89", 2019, "Mercedes-Benz"));
-        list_trucks.add(new Truck(3,"Mano", "TGX25", 2020, "MAN"));
-        list_trucks.add(new Truck(4,"Reno", "POI23", 2021, "Renault"));
+        map_trucks.put(0, new Truck(0,"Volvo", "FHL16", 2007, "Volvo"));
+        map_trucks.put(1, new Truck(1,"Scanio", "RY730", 2015, "Scania"));
+        map_trucks.put(2, new Truck(2,"Actro", "HQS89", 2019, "Mercedes-Benz"));
+        map_trucks.put(3, new Truck(3,"Mano", "TGX25", 2020, "MAN"));
+        map_trucks.put(4, new Truck(4,"Reno", "POI23", 2021, "Renault"));
 
         getLastTruck();
     }
 
-    public void Truck_Delete(){
-        list_trucks.remove(current_truck);
-
-        for (int i = 0; i < list_trucks.size(); i++) {
-            list_trucks.get(i).setTruck_id(i);
-        }
-        getLastTruck();
-    }
     public int getTruckCurrentIndex(){
-        return list_trucks.indexOf(current_truck);
+        return current_truck.getTruck_id();
     }
+    public void Truck_Delete(){
+        map_trucks.remove(current_truck.getTruck_id());
+
+        getLastTruck();
+    }
+
     public void goPreviousTruck(){
-        int next_index = getTruckCurrentIndex()-1;
-        System.out.println(next_index);
-        if(next_index >= 0){
-            current_truck = list_trucks.get(next_index);
-        }else{
-            System.out.println(goPreviousTruckError());
+
+        int currentKey = current_truck.getTruck_id();
+        int previousKey = -1;
+
+        for (Integer key : map_trucks.keySet()) {
+            if (key == currentKey) {
+
+                break;
+            }
+            previousKey = key;
+
         }
+
+        if (previousKey != -1) {
+           current_truck = map_trucks.get(previousKey);
+        } else {
+            goPreviousTruckError();
+        }
+
+
     }
     public String goPreviousTruckError(){
         return "You are on the first Truck.";
     }
     public void goNextTruck(){
-        int next_index = getTruckCurrentIndex()+1;
+        boolean found = false;
+        int nextKey = -1;
 
-        if(next_index < list_trucks.size()){
-            current_truck = list_trucks.get(next_index);
-        }else{
-            System.out.println(goNextTruckError());
+        for (Integer key : map_trucks.keySet()) {
+            if (found) {
+                nextKey = key;
+                break;
+            }
+
+            if (key == current_truck.getTruck_id()) {
+                found = true;
+            }
         }
+
+        if (found && nextKey != -1) {
+            current_truck = map_trucks.get(nextKey);
+        } else {
+            goPreviousTruckError();
+        }
+
     }
     public String goNextTruckError(){
         return "You are on the last Truck.";
     }
     public void getFirstTruck() {
-        current_truck = list_trucks.get(0);
+        for (int key : map_trucks.keySet()) {
+            current_truck = map_trucks.get(key);
+            return;
+        }
     }
     public void getLastTruck() {
-        current_truck = list_trucks.get(list_trucks.size()-1);
+        int lastKey = -1;
+
+        for (int key : map_trucks.keySet()) {
+            lastKey = key;
+
+        }
+        current_truck = map_trucks.get(lastKey);
     }
     public Truck getCurrentTruck() {
         return current_truck;
@@ -66,9 +102,15 @@ public class Controller_Truck {
         this.current_truck = current_truck;
     }
     public String Truck_display_name(int i){
-        return list_trucks.get(i).getTruck_name();
+
+        try {
+            return map_trucks.get(i).getTruck_name();
+        }catch (Exception e){
+            System.out.println("error : "+e);
+            return "Deleted";
+        }
     }
     public int Truck_length(){
-        return list_trucks.size();
+        return map_trucks.size();
     }
 }

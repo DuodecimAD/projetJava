@@ -109,7 +109,7 @@ public class View_Truck extends JPanel {
                 truckTextPane.repaint();
 
                 //contentPanel.remove(truckTextPane);
-                selectCombo.setModel(new DefaultComboBoxModel<>(c_truck.list_trucks.toArray(new Truck[0])));
+                selectCombo.setModel(new DefaultComboBoxModel<>(c_truck.map_trucks.values().toArray(new Truck[0])));
                 //selectCombo = new JComboBox();
                 /*for (int i = 0; i < c_truck.Truck_length(); i++) {
                     selectCombo.addItem(c_truck.list_trucks.get(i));
@@ -126,7 +126,7 @@ public class View_Truck extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
 
-                c_truck.setCurrent_truck(c_truck.list_trucks.get(selectCombo.getSelectedIndex()));
+                c_truck.setCurrent_truck(c_truck.map_trucks.get(selectCombo.getSelectedIndex()));
 
                 if(selectCombo.getSelectedIndex() == 0){
                     messagePane.setText(c_truck.goPreviousTruckError());
@@ -221,8 +221,8 @@ public class View_Truck extends JPanel {
                     brand.setBorder(BorderFactory.createLineBorder(Color.RED));
                 } else {
                     brand.setBorder(UIManager.getBorder("TextField.border"));
-                    c_truck.list_trucks.add(new Truck(c_truck.list_trucks.size(), name.getText(), matricule.getText(), parseInt(year.getText()), brand.getText()));
-                    c_truck.setCurrent_truck(c_truck.list_trucks.get(c_truck.list_trucks.size()-1));
+                    c_truck.map_trucks.put(c_truck.map_trucks.size(), new Truck(c_truck.map_trucks.size(), name.getText(), matricule.getText(), parseInt(year.getText()), brand.getText()));
+                    c_truck.setCurrent_truck(c_truck.map_trucks.get(c_truck.map_trucks.size()-1));
 
                     truckTextPane.removeAll();
 
@@ -242,7 +242,7 @@ public class View_Truck extends JPanel {
                 messagePane.setVisible(false);
                 truckTextPane.removeAll();
                 truckTextPane.repaint();
-                updateCombo.setModel(new DefaultComboBoxModel<>(c_truck.list_trucks.toArray(new Truck[0])));
+                updateCombo.setModel(new DefaultComboBoxModel<>(c_truck.map_trucks.values().toArray(new Truck[0])));
                 updateCombo.setBounds(50,50,1000,50);
                 truckTextPane.setText("Select the Truck you want to Update :");
                 truckTextPane.add(updateCombo);
@@ -253,7 +253,7 @@ public class View_Truck extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
 
-                c_truck.setCurrent_truck(c_truck.list_trucks.get(updateCombo.getSelectedIndex()));
+                c_truck.setCurrent_truck(c_truck.map_trucks.get(updateCombo.getSelectedIndex()));
 
                 JLabel nameLabel = new JLabel();
                 nameLabel.setText("Name : ");

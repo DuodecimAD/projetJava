@@ -109,7 +109,7 @@ public class View_Driver extends JPanel{
                 driverTextPane.repaint();
 
                 //contentPanel.remove(driverTextPane);
-                selectCombo.setModel(new DefaultComboBoxModel<>(c_driver.list_drivers.toArray(new Driver[0])));
+                selectCombo.setModel(new DefaultComboBoxModel<>(c_driver.map_drivers.values().toArray(new Driver[0])));
                 //selectCombo = new JComboBox();
                 /*for (int i = 0; i < c_driver.Driver_length(); i++) {
                     selectCombo.addItem(c_driver.list_drivers.get(i));
@@ -126,7 +126,7 @@ public class View_Driver extends JPanel{
             @Override
             public void actionPerformed(ActionEvent e) {
 
-                c_driver.setCurrent_driver(c_driver.list_drivers.get(selectCombo.getSelectedIndex()));
+                c_driver.setCurrent_driver(c_driver.map_drivers.get(selectCombo.getSelectedIndex()));
 
                 if(selectCombo.getSelectedIndex() == 0){
                     messagePane.setText(c_driver.goPreviousDriverError());
@@ -221,8 +221,9 @@ public class View_Driver extends JPanel{
                     address.setBorder(BorderFactory.createLineBorder(Color.RED));
                 } else {
                     address.setBorder(UIManager.getBorder("TextField.border"));
-                    c_driver.list_drivers.add(new Driver(c_driver.list_drivers.size(), firstName.getText(), lastName.getText(), parseInt(age.getText()), address.getText()));
-                    c_driver.setCurrent_driver(c_driver.list_drivers.get(c_driver.list_drivers.size()-1));
+                    c_driver.map_drivers.put(c_driver.map_drivers.size(),new Driver(c_driver.map_drivers.size(), firstName.getText(), lastName.getText(), parseInt(age.getText()), address.getText()));
+//                    c_driver.setCurrent_driver(c_driver.map_drivers.get(c_driver.map_drivers.size()-1));
+                    c_driver.getLastDriver();
 
                     driverTextPane.removeAll();
 
@@ -244,7 +245,7 @@ public class View_Driver extends JPanel{
                 messagePane.setVisible(false);
                 driverTextPane.removeAll();
                 driverTextPane.repaint();
-                updateCombo.setModel(new DefaultComboBoxModel<>(c_driver.list_drivers.toArray(new Driver[0])));
+                updateCombo.setModel(new DefaultComboBoxModel<>(c_driver.map_drivers.values().toArray(new Driver[0])));
                 //selectCombo = new JComboBox();
                 /*for (int i = 0; i < c_driver.Driver_length(); i++) {
                     selectCombo.addItem(c_driver.list_drivers.get(i));
@@ -261,7 +262,7 @@ public class View_Driver extends JPanel{
             @Override
             public void actionPerformed(ActionEvent e) {
 
-                c_driver.setCurrent_driver(c_driver.list_drivers.get(updateCombo.getSelectedIndex()));
+                c_driver.setCurrent_driver(c_driver.map_drivers.get(updateCombo.getSelectedIndex()));
 
                 JLabel firstNameLabel = new JLabel();
                 firstNameLabel.setText("First Name : ");
@@ -366,12 +367,19 @@ public class View_Driver extends JPanel{
 
                // System.out.println(c_driver.Driver_length()-1);
 
-                try {
-                    c_driver.Driver_Delete();
-                    driverTextPane.setText(c_driver.getCurrentDriver().toString());
-                } catch (IndexOutOfBoundsException b) {
-                    driverTextPane.setText("There are no Drivers, please click New Driver to create a Driver");
-                }
+                    try {
+                        c_driver.Driver_Delete();
+                    }catch (Exception g){
+                        return;
+                    }
+
+
+                    if(c_driver.map_drivers.size() != 0){
+                        driverTextPane.setText(c_driver.getCurrentDriver().toString());
+                    }else{
+                        driverTextPane.setText("There are no Drivers, please click New Driver to create a Driver");
+                    }
+
             }
         });
 

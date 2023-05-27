@@ -110,7 +110,7 @@ public class View_Stats extends JPanel {
         label7.setBounds(10,300,550,30);
         label7.setFont(font);
         statTextPane.add(label7);
-
+fix
         JComboBox<String> selectDriverCombo = new JComboBox<>();
         try {
             for (int i = 0; i < c_driver.Driver_length(); i++) {
