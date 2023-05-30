@@ -38,12 +38,15 @@ public class View_Driver extends JPanel{
 
         vm.setContentPane(driverPanel);
 
+
         if(c_driver.Driver_length() != 0) {
             //TextPanel Drivers
             driverTextPane.setText(c_driver.getCurrentDriver().toString());
         }else{
             driverTextPane.setText("There are no Drivers, please click New Driver to create a Driver");
         }
+
+        driverTextPane.setBorder(BorderFactory.createLoweredBevelBorder());
 
         backMainMenuButton.addActionListener(new ActionListener() {
             @Override
@@ -75,7 +78,7 @@ public class View_Driver extends JPanel{
                 messagePane.setText("");
                 c_driver.goNextDriver();
                 driverTextPane.setText(c_driver.getCurrentDriver().toString());
-                if(c_driver.getDriverCurrentIndex() == c_driver.Driver_length()-1){
+                if(c_driver.getDriverCurrentIndex() == c_driver.getLastDriverIndex()){
                     messagePane.setText(c_driver.goNextDriverError());
                 }
             }
@@ -216,7 +219,7 @@ public class View_Driver extends JPanel{
                 } else if (age.getText().isEmpty() || !age.getText().matches("[0-9]+")) {
                     lastName.setBorder(UIManager.getBorder("TextField.border"));
                     age.setBorder(BorderFactory.createLineBorder(Color.RED));
-                } else if (address.getText().isEmpty() || !address.getText().matches("[a-zA-Z]+")) {
+                } else if (address.getText().isEmpty() || !address.getText().matches("^[a-zA-Z0-9\\s.,']+$")) {
                     age.setBorder(UIManager.getBorder("TextField.border"));
                     address.setBorder(BorderFactory.createLineBorder(Color.RED));
                 } else {
@@ -331,7 +334,7 @@ public class View_Driver extends JPanel{
                 } else if (age.getText().isEmpty() || !age.getText().matches("[0-9]+")) {
                     lastName.setBorder(UIManager.getBorder("TextField.border"));
                     age.setBorder(BorderFactory.createLineBorder(Color.RED));
-                } else if (address.getText().isEmpty() || !address.getText().matches("[a-zA-Z]+")) {
+                } else if (address.getText().isEmpty() || !address.getText().matches("^[a-zA-Z0-9\\s.,']+$")) {
                     age.setBorder(UIManager.getBorder("TextField.border"));
                     address.setBorder(BorderFactory.createLineBorder(Color.RED));
                 } else {
@@ -365,20 +368,22 @@ public class View_Driver extends JPanel{
             @Override
             public void actionPerformed(ActionEvent e) {
 
-               // System.out.println(c_driver.Driver_length()-1);
+                navPanel.setVisible(true);
+                messagePane.setVisible(true);
+                driverTextPane.removeAll();
+                driverTextPane.repaint();
 
-                    try {
-                        c_driver.Driver_Delete();
-                    }catch (Exception g){
-                        return;
-                    }
+                try {
+                    c_driver.Driver_Delete();
+                }catch (Exception g){
+                    return;
+                }
 
-
-                    if(c_driver.map_drivers.size() != 0){
-                        driverTextPane.setText(c_driver.getCurrentDriver().toString());
-                    }else{
-                        driverTextPane.setText("There are no Drivers, please click New Driver to create a Driver");
-                    }
+                if(c_driver.map_drivers.size() != 0){
+                    driverTextPane.setText(c_driver.getCurrentDriver().toString());
+                }else{
+                    driverTextPane.setText("There are no Drivers, please click New Driver to create a Driver");
+                }
 
             }
         });

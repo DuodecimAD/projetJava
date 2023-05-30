@@ -46,6 +46,8 @@ public class View_Travel extends JPanel {
             travelTextPane.setText("There are no Travels, please click New Travel to create a Travel");
         }
 
+        travelTextPane.setBorder(BorderFactory.createLoweredBevelBorder());
+
         backMainMenuButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -110,7 +112,7 @@ public class View_Travel extends JPanel {
                 travelTextPane.repaint();
 
                 //contentPanel.remove(travelTextPane);
-                selectCombo.setModel(new DefaultComboBoxModel<>(c_travel.list_travels.toArray(new Travel[0])));
+                selectCombo.setModel(new DefaultComboBoxModel<>(c_travel.map_travels.values().toArray(new Travel[0])));
                 //selectCombo = new JComboBox();
         /*for (int i = 0; i < c_travel.Travel_length(); i++) {
             selectCombo.addItem(c_travel.list_travels.get(i));
@@ -127,7 +129,7 @@ public class View_Travel extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
 
-                c_travel.setCurrent_travel(c_travel.list_travels.get(selectCombo.getSelectedIndex()));
+                c_travel.setCurrent_travel(c_travel.map_travels.get(selectCombo.getSelectedIndex()));
 
                 if(selectCombo.getSelectedIndex() == 0){
                     messagePane.setText(c_travel.goPreviousTravelError());
@@ -222,8 +224,8 @@ public class View_Travel extends JPanel {
                     travelDAY.setBorder(BorderFactory.createLineBorder(Color.RED));
                 } else {
                     travelDAY.setBorder(UIManager.getBorder("TextField.border"));
-                    c_travel.list_travels.add(new Travel(c_travel.list_travels.size(), parseInt(truckFK.getText()), parseInt(driverFK.getText()), parseInt(travelKM.getText()), travelDAY.getText()));
-                    c_travel.setCurrent_travel(c_travel.list_travels.get(c_travel.list_travels.size()-1));
+                    c_travel.map_travels.put(c_travel.map_travels.size(), new Travel(c_travel.map_travels.size(), parseInt(truckFK.getText()), parseInt(driverFK.getText()), parseInt(travelKM.getText()), travelDAY.getText()));
+                    c_travel.setCurrent_travel(c_travel.map_travels.get(c_travel.map_travels.size()-1));
 
                     travelTextPane.removeAll();
 
@@ -245,7 +247,7 @@ public class View_Travel extends JPanel {
                 messagePane.setVisible(false);
                 travelTextPane.removeAll();
                 travelTextPane.repaint();
-                updateCombo.setModel(new DefaultComboBoxModel<>(c_travel.list_travels.toArray(new Travel[0])));
+                updateCombo.setModel(new DefaultComboBoxModel<>(c_travel.map_travels.values().toArray(new Travel[0])));
                 //selectCombo = new JComboBox();
         /*for (int i = 0; i < c_travel.Travel_length(); i++) {
             selectCombo.addItem(c_travel.list_travels.get(i));
@@ -262,10 +264,10 @@ public class View_Travel extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
 
-                c_travel.setCurrent_travel(c_travel.list_travels.get(updateCombo.getSelectedIndex()));
+                c_travel.setCurrent_travel(c_travel.map_travels.get(updateCombo.getSelectedIndex()));
 
                 JLabel truckFKLabel = new JLabel();
-                truckFKLabel.setText("First Name : ");
+                truckFKLabel.setText("Truck : ");
                 truckFKLabel.setBounds(10,120,100,30);
                 travelTextPane.add(truckFKLabel);
 
@@ -277,7 +279,7 @@ public class View_Travel extends JPanel {
                 travelTextPane.add(truckFK);
 
                 JLabel driverFKLabel = new JLabel();
-                driverFKLabel.setText("Last Name : ");
+                driverFKLabel.setText("Driver : ");
                 driverFKLabel.setBounds(10,200,100,30);
                 travelTextPane.add(driverFKLabel);
 
@@ -289,7 +291,7 @@ public class View_Travel extends JPanel {
                 travelTextPane.add(driverFK);
 
                 JLabel travelKMLabel = new JLabel();
-                travelKMLabel.setText("Age : ");
+                travelKMLabel.setText("KM : ");
                 travelKMLabel.setBounds(10,280,100,30);
                 travelTextPane.add(travelKMLabel);
 
@@ -301,7 +303,7 @@ public class View_Travel extends JPanel {
                 travelTextPane.add(travelKM);
 
                 JLabel travelDAYLabel = new JLabel();
-                travelDAYLabel.setText("Address : ");
+                travelDAYLabel.setText("Day : ");
                 travelDAYLabel.setBounds(10,360,100,30);
                 travelTextPane.add(travelDAYLabel);
 
@@ -365,13 +367,21 @@ public class View_Travel extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
 
-              //  System.out.println(c_travel.Travel_length()-1);
+                navPanel.setVisible(true);
+                messagePane.setVisible(true);
+                travelTextPane.removeAll();
+                travelTextPane.repaint();
 
                 try {
                     c_travel.Travel_Delete();
+                } catch (Exception b) {
+                    return;
+                }
+
+                if(c_travel.map_travels.size() != 0){
                     travelTextPane.setText(c_travel.getCurrentTravel().toString());
-                } catch (IndexOutOfBoundsException b) {
-                    travelTextPane.setText("There are no Travels, please click New Travel to create a Travel");
+                }else{
+                    travelTextPane.setText("There are no Trucks, please click New Truck to create a Truck");
                 }
             }
         });

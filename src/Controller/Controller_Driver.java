@@ -1,10 +1,8 @@
 package Controller;
 
 import Model.Driver;
-
-import java.util.ArrayList;
 import java.util.LinkedHashMap;
-import java.util.Map;
+
 
 public class Controller_Driver {
     //public final ArrayList<Driver> map_drivers = new ArrayList<>();
@@ -33,51 +31,78 @@ public class Controller_Driver {
     }
     public void Driver_Delete(){
         map_drivers.remove(current_driver.getDriver_id());
-
         getLastDriver();
-
     }
-
     public void goPreviousDriver(){
-        for (int i = 1; i < map_drivers.size(); i++) {
-            if(map_drivers.containsKey(current_driver.getDriver_id()-i)) {
-                current_driver = map_drivers.get(current_driver.getDriver_id()-i);
-                return;
+        int currentKey = current_driver.getDriver_id();
+        int previousKey = -1;
+
+        for (Integer key : map_drivers.keySet()) {
+            if (key == currentKey) {
+                break;
             }
+            previousKey = key;
+        }
+
+        if (previousKey != -1) {
+            current_driver = map_drivers.get(previousKey);
         }
     }
     public String goPreviousDriverError(){
         return "You are on the first Driver.";
     }
     public void goNextDriver(){
-        for (int i = 1; i < map_drivers.size(); i++) {
-            if(map_drivers.containsKey(current_driver.getDriver_id()+i)) {
-                current_driver = map_drivers.get(current_driver.getDriver_id()+i);
-                return;
+        int currentKey = current_driver.getDriver_id();
+        boolean found = false;
+        int nextKey = -1;
+
+        for (Integer key : map_drivers.keySet()) {
+            if(found){
+                nextKey = key;
+                break;
             }
+
+            if (key == currentKey) {
+                found = true;
+            }
+        }
+
+        if (found && nextKey != -1) {
+            current_driver = map_drivers.get(nextKey);
         }
     }
     public String goNextDriverError(){
         return "You are on the last Driver.";
     }
     public void getFirstDriver() {
-//        int firstKey = -1;
         for (int key : map_drivers.keySet()) {
             current_driver = map_drivers.get(key);
             return;
         }
     }
-
+    public int getFirstDriverIndex() {
+        int firstKey = -1;
+        for (int key : map_drivers.keySet()) {
+            firstKey = key;
+            break;
+        }
+        return firstKey;
+    }
     public void getLastDriver() {
-
         int lastKey = -1;
 
         for (int key : map_drivers.keySet()) {
             lastKey = key;
-
         }
         current_driver = map_drivers.get(lastKey);
+    }
+    public int getLastDriverIndex() {
+        int lastKey = -1;
 
+        for (int key : map_drivers.keySet()) {
+            lastKey = key;
+        }
+        return lastKey;
     }
     public Driver getCurrentDriver() {
         return current_driver;
@@ -90,10 +115,9 @@ public class Controller_Driver {
         try {
             return map_drivers.get(i).getDriver_first_name()+" "+ map_drivers.get(i).getDriver_last_name();
         }catch (Exception e){
-            System.out.println("error : "+e);
+            System.out.println("error controllerDriverL126 : "+e);
             return "Deleted";
         }
-
     }
     public int Driver_length(){
         return map_drivers.size();
