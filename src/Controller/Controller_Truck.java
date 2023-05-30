@@ -1,9 +1,8 @@
 package Controller;
 
-import Model.Driver;
 import Model.Truck;
-
 import java.util.LinkedHashMap;
+
 
 public class Controller_Truck {
 //    public final ArrayList<Truck> list_trucks = new ArrayList<>();
@@ -26,22 +25,17 @@ public class Controller_Truck {
     }
     public void Truck_Delete(){
         map_trucks.remove(current_truck.getTruck_id());
-
         getLastTruck();
     }
-
     public void goPreviousTruck(){
-
         int currentKey = current_truck.getTruck_id();
         int previousKey = -1;
 
         for (Integer key : map_trucks.keySet()) {
             if (key == currentKey) {
-
                 break;
             }
             previousKey = key;
-
         }
 
         if (previousKey != -1) {
@@ -49,13 +43,12 @@ public class Controller_Truck {
         } else {
             goPreviousTruckError();
         }
-
-
     }
     public String goPreviousTruckError(){
         return "You are on the first Truck.";
     }
     public void goNextTruck(){
+        int currentKey = current_truck.getTruck_id();
         boolean found = false;
         int nextKey = -1;
 
@@ -65,7 +58,7 @@ public class Controller_Truck {
                 break;
             }
 
-            if (key == current_truck.getTruck_id()) {
+            if (key == currentKey) {
                 found = true;
             }
         }
@@ -75,7 +68,6 @@ public class Controller_Truck {
         } else {
             goPreviousTruckError();
         }
-
     }
     public String goNextTruckError(){
         return "You are on the last Truck.";
@@ -86,6 +78,14 @@ public class Controller_Truck {
             return;
         }
     }
+    public int getFirstTruckIndex() {
+        int firstKey = -1;
+        for (int key : map_trucks.keySet()) {
+            firstKey = key;
+            break;
+        }
+        return firstKey;
+    }
     public void getLastTruck() {
         int lastKey = -1;
 
@@ -94,6 +94,14 @@ public class Controller_Truck {
 
         }
         current_truck = map_trucks.get(lastKey);
+    }
+    public int getLastTruckIndex() {
+        int lastKey = -1;
+
+        for (int key : map_trucks.keySet()) {
+            lastKey = key;
+        }
+        return lastKey;
     }
     public Truck getCurrentTruck() {
         return current_truck;
@@ -106,7 +114,7 @@ public class Controller_Truck {
         try {
             return map_trucks.get(i).getTruck_name();
         }catch (Exception e){
-            System.out.println("error : "+e);
+            System.out.println("error controllerTruck118 : "+e);
             return "Deleted";
         }
     }

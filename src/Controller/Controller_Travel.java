@@ -3,10 +3,8 @@ package Controller;
 import Model.Driver;
 import Model.Travel;
 import Model.Truck;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Objects;
-import java.util.Scanner;
+
+import java.util.*;
 
 /**
  * The Class Controller_Travel.
@@ -15,90 +13,109 @@ public class Controller_Travel {
     
     /** The list travels. */
 
-    public final ArrayList<Travel> list_travels = new ArrayList<>();
+
+    public final LinkedHashMap<Integer, Travel> map_travels = new LinkedHashMap<>();
     private Travel current_travel;
 
     public Controller_Travel() {
-        list_travels.add(new Travel(0,0, 1, 63, "19/03/2023"));
-        list_travels.add(new Travel(1,1, 2, 25, "19/03/2023"));
-        list_travels.add(new Travel(2,2, 3, 67, "19/03/2023"));
-        list_travels.add(new Travel(3,3, 4, 91, "19/03/2023"));
-        list_travels.add(new Travel(4,4, 0, 27, "20/03/2023"));
-        list_travels.add(new Travel(5,0, 0, 68, "20/03/2023"));
-        list_travels.add(new Travel(6,1, 1, 55, "20/03/2023"));
-        list_travels.add(new Travel(7,2, 2, 82, "20/03/2023"));
+        map_travels.put(0, new Travel(0,0, 1, 63, "19/03/2023"));
+        map_travels.put(1, new Travel(1,1, 2, 25, "19/03/2023"));
+        map_travels.put(2, new Travel(2,2, 3, 67, "19/03/2023"));
+        map_travels.put(3, new Travel(3,3, 4, 91, "19/03/2023"));
+        map_travels.put(4, new Travel(4,4, 0, 27, "20/03/2023"));
+        map_travels.put(5, new Travel(5,0, 0, 68, "20/03/2023"));
+        map_travels.put(6, new Travel(6,1, 1, 55, "20/03/2023"));
+        map_travels.put(7, new Travel(7,2, 2, 82, "20/03/2023"));
 
         getLastTravel();
     }
 
 
-//                        case 1 -> Travel_Create(c_driver,c_truck);
-//                        case 2 -> Travel_Update(c_driver,c_truck);
-//                        case 3 -> {
-//                            list_travels[pos_current].setIs_deleted(true);
-//                            pos_count--;
-//                            Travel_Checklist();
-//                            pos_current = pos_last;
-//                        }
-//                        case 4 -> Travel_Next();
-//                        case 5 -> Travel_Previous();
-//                        case 6 -> pos_current = pos_first;
-//                        case 7 -> pos_current = pos_last;
-//                        case 8 -> Travel_Select(c_driver,c_truck);
-
-
+    public int getTravelCurrentIndex(){
+        return current_travel.getTravel_id();
+    }
     public Travel getCurrentTravel() {
         return current_travel;
     }
     public void setCurrent_travel(Travel current_travel) {
         this.current_travel = current_travel;
     }
-    public int getTravelCurrentIndex(){
-        return list_travels.indexOf(current_travel);
-    }
     public void goPreviousTravel(){
-        int next_index = getTravelCurrentIndex()-1;
-        System.out.println(next_index);
-        if(next_index >= 0){
-            current_travel = list_travels.get(next_index);
-        }else{
-            System.out.println(goPreviousTravelError());
+        int currentKey = current_travel.getTravel_id();
+        int previousKey = -1;
+
+        for (Integer key : map_travels.keySet()) {
+            if (key == currentKey) {
+                break;
+            }
+            previousKey = key;
+        }
+
+        if (previousKey != -1) {
+            current_travel = map_travels.get(previousKey);
         }
     }
-
     public String goPreviousTravelError(){
         return "You are on the first Travel.";
     }
     public void goNextTravel(){
+        int currentKey = current_travel.getTravel_id();
+        boolean found = false;
+        int nextKey = -1;
 
-        int next_index = getTravelCurrentIndex()+1;
+        for (Integer key : map_travels.keySet()) {
+            if(found){
+                nextKey = key;
+                break;
+            }
 
-        if(next_index < list_travels.size()){
-            current_travel = list_travels.get(next_index);
-        }else{
-            System.out.println(goNextTravelError());
+            if (key == currentKey) {
+                found = true;
+            }
+        }
+
+        if (found && nextKey != -1) {
+            current_travel = map_travels.get(nextKey);
         }
     }
     public String goNextTravelError(){
         return "You are on the last Travel.";
     }
+
     public void getFirstTravel() {
-        current_travel = list_travels.get(0);
+        for (int key : map_travels.keySet()) {
+            current_travel = map_travels.get(key);
+            return;
+        }
+    }
+    public int getFirstTravelIndex() {
+        int firstKey = -1;
+
+        for (int key : map_travels.keySet()) {
+            firstKey = key;
+            break;
+        }
+        return firstKey;
     }
     public void getLastTravel() {
-        current_travel = list_travels.get(list_travels.size()-1);
-    }
+        int lastKey = -1;
 
-    public void Travel_Delete(){
-        list_travels.remove(current_travel);
-
-        for (int i = 0; i < list_travels.size(); i++) {
-            list_travels.get(i).setTravel_id(i);
+        for (int key : map_travels.keySet()) {
+            lastKey = key;
         }
+        current_travel = map_travels.get(lastKey);
+    }
+    public int getLastDriverIndex() {
+        int lastKey = -1;
 
-        //System.out.println(list_drivers.get(0).getTravel_id());
+        for (int key : map_travels.keySet()) {
+            lastKey = key;
+        }
+        return lastKey;
+    }
+    public void Travel_Delete(){
+        map_travels.remove(current_travel.getTravel_id());
         getLastTravel();
-
     }
 
    public String List_truck_by_driver(Controller_Driver c_driver, Controller_Truck c_truck, int driver_selected){
@@ -108,21 +125,21 @@ public class Controller_Travel {
 
 
         String string = "You have selected Driver "+ c_driver.Driver_display_name(driver_selected) + " and he drove ";
-        for (int i = 0; i < list_travels.size(); i++) {
-            if(list_travels.get(i).getDriver_fk() == driver_selected){
+        for (int i = 0; i < map_travels.size(); i++) {
+            if(map_travels.get(i).getDriver_fk() == driver_selected){
 
                 boolean exists = false;
 
                 if(count > 0){
                     for (int j = 0; j < count; j++) {
-                        if(Objects.equals(drove[j], c_truck.Truck_display_name(list_travels.get(i).getTruck_fk()))) {
+                        if(Objects.equals(drove[j], c_truck.Truck_display_name(map_travels.get(i).getTruck_fk()))) {
                             exists = true;
                             break;
                         }
                     }
                 }
                 if (!exists) {
-                    drove[count] = c_truck.Truck_display_name(list_travels.get(i).getTruck_fk());
+                    drove[count] = c_truck.Truck_display_name(map_travels.get(i).getTruck_fk());
                     count++;
                 }
 
@@ -155,21 +172,21 @@ public class Controller_Travel {
 
 
         String string = "You have selected Truck "+ c_truck.Truck_display_name(truck_selected) + " and it Had been driven by ";
-        for (int i = 0; i < list_travels.size(); i++) {
-            if(list_travels.get(i).getTruck_fk() == truck_selected) {
+        for (int i = 0; i < map_travels.size(); i++) {
+            if(map_travels.get(i).getTruck_fk() == truck_selected) {
 
                 boolean exists = false;
 
                 if (count > 0) {
                     for (int j = 0; j < count; j++) {
-                        if (Objects.equals(driven[j], c_driver.Driver_display_name(list_travels.get(i).getDriver_fk()))) {
+                        if (Objects.equals(driven[j], c_driver.Driver_display_name(map_travels.get(i).getDriver_fk()))) {
                             exists = true;
                             break;
                         }
                     }
                 }
                 if (!exists) {
-                    driven[count] = c_driver.Driver_display_name(list_travels.get(i).getDriver_fk());
+                    driven[count] = c_driver.Driver_display_name(map_travels.get(i).getDriver_fk());
                     count++;
                 }
             }
@@ -208,8 +225,8 @@ public class Controller_Travel {
 
 
         try {
-            for (int i = 0; i < list_travels.size(); i++) {
-                travels[list_travels.get(i).getDriver_fk()]++;
+            for (int i = 0; i < map_travels.size(); i++) {
+                travels[map_travels.get(i).getDriver_fk()]++;
             }
         } catch (Exception e) {
             System.out.println("error : " + e);
@@ -275,17 +292,17 @@ public class Controller_Travel {
 
         // nb drivers
         int trucks = 0;
-        for (int i = 0; i < list_travels.size(); i++) {
-            if(list_travels.get(i).getTruck_fk() > trucks){
-                trucks = list_travels.get(i).getTruck_fk();
+        for (int i = 0; i < map_travels.size(); i++) {
+            if(map_travels.get(i).getTruck_fk() > trucks){
+                trucks = map_travels.get(i).getTruck_fk();
             }
         }
         trucks = trucks+1;
 
         // nb trucks used by each driver
         int travels[] = new int[trucks];
-        for (int i = 0; i < list_travels.size(); i++) {
-            travels[list_travels.get(i).getTruck_fk()]++;
+        for (int i = 0; i < map_travels.size(); i++) {
+            travels[map_travels.get(i).getTruck_fk()]++;
         }
 
         // find max
@@ -346,10 +363,10 @@ public class Controller_Travel {
         int highest_km = 0;
         int top_driver = -1;
 
-        for (int i = 0; i < list_travels.size(); i++) {
-            if (list_travels.get(i).getTravel_km() > highest_km){
-                highest_km = list_travels.get(i).getTravel_km();
-                top_driver = list_travels.get(i).getDriver_fk();
+        for (int i = 0; i < map_travels.size(); i++) {
+            if (map_travels.get(i).getTravel_km() > highest_km){
+                highest_km = map_travels.get(i).getTravel_km();
+                top_driver = map_travels.get(i).getDriver_fk();
             }
         }
 
@@ -367,10 +384,10 @@ public class Controller_Travel {
         int top_truck = -1;
 
         try {
-            for (int i = 0; i < list_travels.size(); i++) {
-                if (list_travels.get(i).getTravel_km() > highest_km){
-                    highest_km = list_travels.get(i).getTravel_km();
-                    top_truck = list_travels.get(i).getDriver_fk();
+            for (int i = 0; i < map_travels.size(); i++) {
+                if (map_travels.get(i).getTravel_km() > highest_km){
+                    highest_km = map_travels.get(i).getTravel_km();
+                    top_truck = map_travels.get(i).getDriver_fk();
                 }
             }
         } catch (Exception e) {
@@ -397,9 +414,9 @@ public class Controller_Travel {
         }
 
         // Iterate over the travels and update the distance for each driver
-        for (Travel travel : list_travels) {
-            Driver driver = c_driver.map_drivers.get(travel.getDriver_fk());
-            int distance = travel.getTravel_km();
+        for (int key : map_travels.keySet()) {
+            Driver driver = c_driver.map_drivers.get(map_travels.get(key).getDriver_fk());
+            int distance = map_travels.get(key).getTravel_km();
 
             // Update the distance for the driver
             if (driver != null) {
@@ -438,9 +455,9 @@ public class Controller_Travel {
         }
 
         // Iterate over the travels and update the distance for each driver
-        for (Travel travel : list_travels) {
-            Truck truck = c_truck.map_trucks.get(travel.getTruck_fk());
-            int distance = travel.getTravel_km();
+        for (int key : map_travels.keySet()) {
+            Truck truck = c_truck.map_trucks.get(map_travels.get(key).getTruck_fk());
+            int distance = map_travels.get(key).getTravel_km();
 
             // Update the distance for the driver
             if (truck != null) {
@@ -468,6 +485,6 @@ public class Controller_Travel {
     }
 
     public int Travel_length(){
-        return list_travels.size();
+        return map_travels.size();
     }
 }

@@ -23,7 +23,7 @@ public class View_Stats extends JPanel {
         Font font = new Font("Dialog", Font.BOLD, 14);
 //        scrollPane.setBackground(new Color(0));
 //        scrollPane.setPreferredSize(statTextPane.getPreferredSize());
-
+        statTextPane.setBorder(BorderFactory.createLoweredBevelBorder());
 //        scrollPane.setViewportView(statTextPane);
         statTextPane.setText("Quelques stats :");
 
@@ -110,16 +110,12 @@ public class View_Stats extends JPanel {
         label7.setBounds(10,300,550,30);
         label7.setFont(font);
         statTextPane.add(label7);
-fix
-        JComboBox<String> selectDriverCombo = new JComboBox<>();
-        try {
-            for (int i = 0; i < c_driver.Driver_length(); i++) {
-                selectDriverCombo.addItem("Driver "+i+" : "+c_driver.Driver_display_name(i));
-            }
-        } catch (Exception e) {
-            System.out.println("error here");
-        }
 
+        JComboBox<String> selectDriverCombo = new JComboBox<>();
+
+        for (int key : c_driver.map_drivers.keySet()) {
+            selectDriverCombo.addItem("Driver "+key+" : "+c_driver.Driver_display_name(key));
+        }
 
 //        selectDriverCombo.setModel(new DefaultComboBoxModel<>(c_driver.list_drivers.toArray(new Driver[0])));
         selectDriverCombo.setBounds(10,330,200,30);

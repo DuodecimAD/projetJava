@@ -45,6 +45,8 @@ public class View_Truck extends JPanel {
             truckTextPane.setText("There are no Trucks, please click New Truck to create a Truck");
         }
 
+        truckTextPane.setBorder(BorderFactory.createLoweredBevelBorder());
+
         backMainMenuButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -355,12 +357,20 @@ public class View_Truck extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
 
-              //  System.out.println(c_truck.Truck_length()-1);
+                navPanel.setVisible(true);
+                messagePane.setVisible(true);
+                truckTextPane.removeAll();
+                truckTextPane.repaint();
 
                 try {
                     c_truck.Truck_Delete();
+                } catch (Exception b) {
+                   return;
+                }
+
+                if(c_truck.map_trucks.size() != 0){
                     truckTextPane.setText(c_truck.getCurrentTruck().toString());
-                } catch (IndexOutOfBoundsException b) {
+                }else{
                     truckTextPane.setText("There are no Trucks, please click New Truck to create a Truck");
                 }
             }
