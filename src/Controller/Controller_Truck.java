@@ -5,12 +5,10 @@ import java.util.LinkedHashMap;
 
 
 public class Controller_Truck {
-//    public final ArrayList<Truck> list_trucks = new ArrayList<>();
     public final LinkedHashMap<Integer, Truck> map_trucks = new LinkedHashMap<>();
     private Truck current_truck;
 
     public Controller_Truck() {
-
         map_trucks.put(0, new Truck(0,"Volvo", "FHL16", 2007, "Volvo"));
         map_trucks.put(1, new Truck(1,"Scanio", "RY730", 2015, "Scania"));
         map_trucks.put(2, new Truck(2,"Actro", "HQS89", 2019, "Mercedes-Benz"));
@@ -110,7 +108,6 @@ public class Controller_Truck {
         this.current_truck = current_truck;
     }
     public String Truck_display_name(int i){
-
         try {
             return map_trucks.get(i).getTruck_name();
         }catch (Exception e){
